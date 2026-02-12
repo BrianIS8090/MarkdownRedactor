@@ -1,0 +1,101 @@
+/* Контейнер редактора */
+.editor-container {
+  flex: 1;
+  overflow: auto;
+  background: var(--bg-primary);
+  --editor-font-size: 15px;
+  --editor-font-family: 'Segoe UI Variable', sans-serif;
+}
+
+.editor-root {
+  min-height: 100%;
+}
+
+/* Шрифт редактора - применяется к milkdown */
+.editor-root .milkdown {
+  --crepe-font-default: var(--editor-font-family), sans-serif;
+  --crepe-font-title: var(--editor-font-family), sans-serif;
+}
+
+/*
+ * Перекрываем размеры шрифтов Milkdown.
+ * Milkdown жёстко задаёт px-значения для h1-h6 и p.
+ * Мы используем em относительно --editor-font-size, чтобы всё масштабировалось.
+ */
+.editor-root .milkdown {
+  font-size: var(--editor-font-size, 15px) !important;
+}
+
+.editor-root .milkdown .ProseMirror {
+  padding: 24px 48px;
+}
+
+.editor-root .milkdown .ProseMirror p {
+  font-size: 1em !important;
+  line-height: 1.7 !important;
+}
+
+.editor-root .milkdown .ProseMirror h1 {
+  font-size: 2.2em !important;
+  line-height: 1.2 !important;
+}
+
+.editor-root .milkdown .ProseMirror h2 {
+  font-size: 1.8em !important;
+  line-height: 1.25 !important;
+}
+
+.editor-root .milkdown .ProseMirror h3 {
+  font-size: 1.5em !important;
+  line-height: 1.3 !important;
+}
+
+.editor-root .milkdown .ProseMirror h4 {
+  font-size: 1.3em !important;
+  line-height: 1.35 !important;
+}
+
+.editor-root .milkdown .ProseMirror h5 {
+  font-size: 1.15em !important;
+  line-height: 1.4 !important;
+}
+
+.editor-root .milkdown .ProseMirror h6 {
+  font-size: 1em !important;
+  line-height: 1.4 !important;
+  font-weight: 700;
+}
+
+.editor-root .milkdown .ProseMirror blockquote {
+  font-size: 1em !important;
+}
+
+.editor-root .milkdown .ProseMirror ul,
+.editor-root .milkdown .ProseMirror ol {
+  font-size: 1em !important;
+}
+
+.editor-root .milkdown .ProseMirror li {
+  font-size: 1em !important;
+}
+
+.editor-root .milkdown .ProseMirror code {
+  font-size: 0.875em !important;
+}
+
+/* Source-режим (textarea) */
+.editor-source {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  padding: 24px 48px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: var(--editor-font-size, 15px);
+  line-height: 1.7;
+  tab-size: 2;
+}

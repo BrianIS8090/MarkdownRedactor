@@ -1,0 +1,33 @@
+/* Строка статуса */
+.statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--statusbar-height);
+  padding: 0 12px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+.statusbar-left {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.statusbar-right {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.statusbar-path {
+  color: var(--text-muted);
+}
+
+.statusbar-item {
+  color: var(--text-secondary);
+}

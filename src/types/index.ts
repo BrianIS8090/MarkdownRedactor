@@ -1,0 +1,43 @@
+import type { Language } from '../i18n';
+
+export interface FileData {
+  path: string;
+  content: string;
+}
+
+export interface Settings {
+  font_family: string;
+  font_size: number;
+  theme: 'light' | 'dark' | 'system';
+  language: Language;
+  recent_files: string[];
+}
+
+export type EditorMode = 'visual' | 'source';
+
+export interface AppState {
+  // Файл
+  filePath: string | null;
+  content: string;
+  isDirty: boolean;
+
+  // Настройки
+  fontFamily: string;
+  fontSize: number;
+  theme: 'light' | 'dark' | 'system';
+  language: Language;
+  editorMode: EditorMode;
+  recentFiles: string[];
+
+  // Действия
+  setContent: (content: string) => void;
+  setFilePath: (path: string | null) => void;
+  setDirty: (dirty: boolean) => void;
+  setFontFamily: (fontFamily: string) => void;
+  setFontSize: (fontSize: number) => void;
+  setTheme: (theme: 'light' | 'dark' | 'system') => void;
+  setLanguage: (language: Language) => void;
+  setEditorMode: (mode: EditorMode) => void;
+  setRecentFiles: (files: string[]) => void;
+  updateSettings: (settings: Partial<Settings>) => void;
+}

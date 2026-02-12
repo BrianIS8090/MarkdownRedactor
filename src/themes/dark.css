@@ -1,0 +1,38 @@
+/* Тёмная тема */
+[data-theme="dark"] {
+  --bg-primary: #202020;
+  --bg-secondary: rgba(40, 40, 40, 0.9);
+  --bg-tertiary: rgba(50, 50, 50, 0.9);
+  --text-primary: #e0e0e0;
+  --text-secondary: #aaaaaa;
+  --text-muted: #777777;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --accent: #60cdff;
+  --accent-hover: #7dd7ff;
+  --accent-text: #000000;
+  --hover-bg: rgba(255, 255, 255, 0.06);
+  --active-bg: rgba(255, 255, 255, 0.1);
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Crepe переменные для тёмной темы */
+[data-theme="dark"] .milkdown {
+  --crepe-color-background: #1e1e1e;
+  --crepe-color-on-background: #e0e0e0;
+  --crepe-color-surface: #2a2a2a;
+  --crepe-color-surface-low: #252525;
+  --crepe-color-on-surface: #e0e0e0;
+  --crepe-color-on-surface-variant: #aaaaaa;
+  --crepe-color-outline: #555555;
+  --crepe-color-primary: #60cdff;
+  --crepe-color-secondary: #444444;
+  --crepe-color-on-secondary: #e0e0e0;
+  --crepe-color-inverse: #2a2a2a;
+  --crepe-color-on-inverse: #e0e0e0;
+  --crepe-color-inline-code: #f0abfc;
+  --crepe-color-error: #ff6b6b;
+  --crepe-color-hover: #3a3a3a;
+  --crepe-color-selected: #444444;
+  --crepe-color-inline-area: #383838;
+}

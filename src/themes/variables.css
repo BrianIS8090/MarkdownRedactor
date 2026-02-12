@@ -1,0 +1,47 @@
+/* Общие CSS-переменные */
+:root {
+  --bg-primary: #f3f3f3;
+  --bg-secondary: rgba(255, 255, 255, 0.85);
+  --bg-tertiary: rgba(245, 245, 245, 0.9);
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --border: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.2);
+  --accent: #005fb8;
+  --accent-hover: #0070d8;
+  --accent-text: #ffffff;
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --active-bg: rgba(0, 0, 0, 0.08);
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --radius: 6px;
+  --radius-lg: 8px;
+  --font-family: 'Segoe UI Variable', 'Segoe UI', sans-serif;
+  --font-size: 15px;
+  --font-mono: 'Cascadia Code', 'Consolas', monospace;
+  --titlebar-height: 32px;
+  --toolbar-height: 40px;
+  --statusbar-height: 24px;
+  --transition: 150ms ease;
+}
+
+/* Crepe переменные для светлой темы (переопределяем в .milkdown) */
+.milkdown {
+  --crepe-color-background: #ffffff;
+  --crepe-color-on-background: #1a1a1a;
+  --crepe-color-surface: #f7f7f7;
+  --crepe-color-surface-low: #ededed;
+  --crepe-color-on-surface: #1c1c1c;
+  --crepe-color-on-surface-variant: #4d4d4d;
+  --crepe-color-outline: #a8a8a8;
+  --crepe-color-primary: #005fb8;
+  --crepe-color-secondary: #cfcfcf;
+  --crepe-color-on-secondary: #000000;
+  --crepe-color-inverse: #f0f0f0;
+  --crepe-color-on-inverse: #1a1a1a;
+  --crepe-color-inline-code: #9d174d;
+  --crepe-color-error: #ba1a1a;
+  --crepe-color-hover: #e0e0e0;
+  --crepe-color-selected: #d5d5d5;
+  --crepe-color-inline-area: #e8e8e8;
+}

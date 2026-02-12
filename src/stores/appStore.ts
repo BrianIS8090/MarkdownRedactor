@@ -1,0 +1,36 @@
+import { create } from 'zustand';
+import type { AppState, Settings } from '../types';
+import type { Language } from '../i18n';
+
+export const useAppStore = create<AppState>((set) => ({
+  // Файл
+  filePath: null,
+  content: '',
+  isDirty: false,
+
+  // Настройки
+  fontFamily: 'Segoe UI Variable',
+  fontSize: 15,
+  theme: 'system',
+  language: 'ru' as Language,
+  editorMode: 'visual',
+  recentFiles: [],
+
+  // Действия
+  setContent: (content) => set({ content, isDirty: true }),
+  setFilePath: (filePath) => set({ filePath }),
+  setDirty: (isDirty) => set({ isDirty }),
+  setFontFamily: (fontFamily) => set({ fontFamily }),
+  setFontSize: (fontSize) => set({ fontSize }),
+  setTheme: (theme) => set({ theme }),
+  setLanguage: (language) => set({ language }),
+  setEditorMode: (editorMode) => set({ editorMode }),
+  setRecentFiles: (recentFiles) => set({ recentFiles }),
+  updateSettings: (settings: Partial<Settings>) => set((state) => ({
+    fontFamily: settings.font_family ?? state.fontFamily,
+    fontSize: settings.font_size ?? state.fontSize,
+    theme: settings.theme ?? state.theme,
+    language: settings.language ?? state.language,
+    recentFiles: settings.recent_files ?? state.recentFiles,
+  })),
+}));
