@@ -1,5 +1,6 @@
 
 # Markdown Redactor (EN)
+<img width="1202" height="802" alt="image" src="https://github.com/user-attachments/assets/715b7143-da65-48a6-b7ba-d3b7584f7cb2" />
 
 **Markdown Redactor** is a modern Markdown editor for Windows 11, built on Tauri 2. The application combines a powerful Rust backend with a modern React/TypeScript frontend featuring the Milkdown Crepe visual editor.
 
