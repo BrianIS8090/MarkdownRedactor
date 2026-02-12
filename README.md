@@ -1,7 +1,3 @@
-<img width="1202" height="802" alt="image" src="https://github.com/user-attachments/assets/d7730098-b423-4f87-b0aa-c78b8e8246da" />
----
-<img width="1202" height="802" alt="image" src="https://github.com/user-attachments/assets/cb5c9ce4-9cb0-41cd-a1fc-11297586d3c8" />
-
 
 # Markdown Redactor (EN)
 
