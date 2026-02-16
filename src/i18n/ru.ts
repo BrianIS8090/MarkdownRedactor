@@ -41,6 +41,95 @@ export const ru = {
   fontTooltip: 'Шрифт',
   decreaseFontTooltip: 'Уменьшить шрифт (Ctrl+-)',
   increaseFontTooltip: 'Увеличить шрифт (Ctrl++)',
+
+  // Справка
+  helpTitle: 'Справка',
+  helpTabAbout: 'О программе',
+  helpTabMarkdown: 'Markdown',
+  helpTabShortcuts: 'Шорткаты',
+  helpMarkdownIntro: 'Краткий справочник по синтаксису Markdown и расширениям.',
+  helpMarkdownCards: [
+    {
+      title: 'Заголовки',
+      example: '# Заголовок\n## Подзаголовок',
+      description: 'Используйте решётки для уровней 1–6.',
+    },
+    {
+      title: 'Выделение',
+      example: '**Жирный**\n*Курсив*\n~~Зачёркнутый~~',
+      description: 'Быстрое форматирование текста.',
+    },
+    {
+      title: 'Код',
+      example: '`код`\n```\nблок кода\n```',
+      description: 'Инлайн и многострочный код.',
+    },
+    {
+      title: 'Ссылки и изображения',
+      example: '[Текст](https://example.com)\n![Alt](https://example.com/image.png)',
+      description: 'Ссылки и картинки в тексте.',
+    },
+    {
+      title: 'Списки',
+      example: '- Пункт\n1. Пункт',
+      description: 'Маркированные и нумерованные списки.',
+    },
+    {
+      title: 'Цитаты',
+      example: '> Цитата',
+      description: 'Выделение блока текста.',
+    },
+    {
+      title: 'Таблицы',
+      example: '| Колонка | Колонка |\n| --- | --- |\n| 1 | 2 |',
+      description: 'Таблицы в стиле GitHub.',
+    },
+    {
+      title: 'Чекбоксы',
+      example: '- [ ] Задача\n- [x] Готово',
+      description: 'Списки задач.',
+    },
+    {
+      title: 'Разделитель',
+      example: '---',
+      description: 'Горизонтальная линия.',
+    },
+  ],
+  helpShortcutsIntro: 'Глобальные и редакторские сочетания клавиш.',
+  helpShortcutsNote: 'Если есть выделение, шорткаты оборачивают его; иначе вставляют шаблон.',
+  helpShortcutsGroups: [
+    {
+      title: 'Файл',
+      items: [
+        { keys: 'Ctrl+O', description: 'Открыть файл' },
+        { keys: 'Ctrl+S', description: 'Сохранить файл' },
+        { keys: 'Ctrl+Shift+S', description: 'Сохранить как' },
+      ],
+    },
+    {
+      title: 'Вид и режим',
+      items: [
+        { keys: 'Ctrl+Shift+T', description: 'Переключить тему' },
+        { keys: 'Ctrl+/', description: 'Переключить режим редактора' },
+        { keys: 'Ctrl++ / Ctrl+=', description: 'Увеличить шрифт' },
+        { keys: 'Ctrl+-', description: 'Уменьшить шрифт' },
+      ],
+    },
+    {
+      title: 'Markdown',
+      items: [
+        { keys: 'Ctrl+B', description: 'Жирный (**текст**)' },
+        { keys: 'Ctrl+I', description: 'Курсив (*текст*)' },
+        { keys: 'Ctrl+Shift+X', description: 'Зачёркнутый (~~текст~~)' },
+        { keys: 'Ctrl+Shift+C', description: 'Инлайн-код (`код`)' },
+        { keys: 'Ctrl+Alt+C', description: 'Блок кода (```...```)' },
+        { keys: 'Ctrl+K', description: 'Ссылка ([текст](url))' },
+        { keys: 'Ctrl+Shift+K', description: 'Изображение (![alt](url))' },
+        { keys: 'Ctrl+Alt+T', description: 'Таблица' },
+        { keys: 'Ctrl+Alt+X', description: 'Чекбокс (- [ ])' },
+      ],
+    },
+  ],
 };
 
 export type Translations = typeof ru;

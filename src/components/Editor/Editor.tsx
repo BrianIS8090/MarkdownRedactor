@@ -3,6 +3,7 @@ import { Crepe, CrepeFeature } from '@milkdown/crepe';
 import '@milkdown/crepe/theme/common/style.css';
 import '@milkdown/crepe/theme/frame.css';
 import { useAppStore } from '../../stores/appStore';
+import { setActiveEditor } from '../../utils/editorBridge';
 import './editor.css';
 
 function createCrepeConfig(defaultValue: string) {
@@ -67,9 +68,11 @@ export function Editor() {
     const crepe = buildCrepe(editorRef.current, content);
     crepe.create().then(() => {
       crepeRef.current = crepe;
+      setActiveEditor(crepe.editor);
     });
 
     return () => {
+      setActiveEditor(null);
       crepe.destroy();
       crepeRef.current = null;
     };
@@ -83,10 +86,12 @@ export function Editor() {
       const root = editorRef.current;
       if (!root) return;
 
+      setActiveEditor(null);
       crepeRef.current.destroy().then(() => {
         const crepe = buildCrepe(root, content);
         crepe.create().then(() => {
           crepeRef.current = crepe;
+          setActiveEditor(crepe.editor);
         });
       });
     }
@@ -100,10 +105,12 @@ export function Editor() {
       const root = editorRef.current;
       if (!root || !crepeRef.current) return;
       const currentContent = contentRef.current;
+      setActiveEditor(null);
       crepeRef.current.destroy().then(() => {
         const crepe = buildCrepe(root, currentContent);
         crepe.create().then(() => {
           crepeRef.current = crepe;
+          setActiveEditor(crepe.editor);
         });
       });
     }
