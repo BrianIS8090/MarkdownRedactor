@@ -7,6 +7,7 @@ import { useFile } from './hooks/useFile';
 import { useSettings } from './hooks/useSettings';
 import { useTheme } from './hooks/useTheme';
 import { useAppStore } from './stores/appStore';
+import { insertMarkdown, type MarkdownAction } from './utils/markdownInsert';
 import * as tauri from './utils/tauri';
 import './App.css';
 
@@ -16,6 +17,7 @@ function App() {
   const { toggleTheme } = useTheme();
   const editorMode = useAppStore((s) => s.editorMode);
   const setEditorMode = useAppStore((s) => s.setEditorMode);
+  const setContent = useAppStore((s) => s.setContent);
 
   // Обработка открытия файла через ассоциацию (Windows)
   // Запрашиваем при монтировании приложения
@@ -33,6 +35,32 @@ function App() {
       }
     });
   }, []);
+
+  // Применение Markdown-вставки к textarea в source-режиме
+  const applyMarkdownAction = useCallback((action: MarkdownAction) => {
+    const textarea = document.querySelector<HTMLTextAreaElement>('.editor-source');
+    if (!textarea) return;
+
+    const result = insertMarkdown(
+      textarea.value,
+      textarea.selectionStart,
+      textarea.selectionEnd,
+      action,
+    );
+
+    // Обновляем содержимое через нативное событие для корректной синхронизации
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLTextAreaElement.prototype, 'value',
+    )?.set;
+    nativeInputValueSetter?.call(textarea, result.value);
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+
+    // Устанавливаем курсор/выделение
+    textarea.setSelectionRange(result.selectionStart, result.selectionEnd);
+    textarea.focus();
+
+    setContent(result.value);
+  }, [setContent]);
 
   // Горячие клавиши
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
@@ -71,7 +99,69 @@ function App() {
       e.preventDefault();
       changeFontSize(fontSize - 1);
     }
-  }, [open, save, saveAs, toggleTheme, editorMode, setEditorMode, changeFontSize, fontSize]);
+
+    // Шорткаты вставки Markdown (только в source-режиме)
+    if (editorMode !== 'source') return;
+
+    // Ctrl+B — Жирный
+    if (e.ctrlKey && !e.shiftKey && e.key === 'b') {
+      e.preventDefault();
+      applyMarkdownAction('bold');
+    }
+    // Ctrl+I — Курсив
+    if (e.ctrlKey && !e.shiftKey && e.key === 'i') {
+      e.preventDefault();
+      applyMarkdownAction('italic');
+    }
+    // Ctrl+Shift+X — Зачёркнутый
+    if (e.ctrlKey && e.shiftKey && e.key === 'X') {
+      e.preventDefault();
+      applyMarkdownAction('strikethrough');
+    }
+    // Ctrl+K — Ссылка
+    if (e.ctrlKey && !e.shiftKey && e.key === 'k') {
+      e.preventDefault();
+      applyMarkdownAction('link');
+    }
+    // Ctrl+Shift+K — Изображение
+    if (e.ctrlKey && e.shiftKey && e.key === 'K') {
+      e.preventDefault();
+      applyMarkdownAction('image');
+    }
+    // Ctrl+E — Инлайн-код
+    if (e.ctrlKey && !e.shiftKey && e.key === 'e') {
+      e.preventDefault();
+      applyMarkdownAction('inlineCode');
+    }
+    // Ctrl+Shift+. — Цитата
+    if (e.ctrlKey && e.shiftKey && e.key === '>') {
+      e.preventDefault();
+      applyMarkdownAction('blockquote');
+    }
+    // Ctrl+Shift+8 — Маркированный список
+    if (e.ctrlKey && e.shiftKey && e.key === '*') {
+      e.preventDefault();
+      applyMarkdownAction('unorderedList');
+    }
+    // Ctrl+Shift+7 — Нумерованный список
+    if (e.ctrlKey && e.shiftKey && e.key === '&') {
+      e.preventDefault();
+      applyMarkdownAction('orderedList');
+    }
+    // Ctrl+1/2/3 — Заголовки
+    if (e.ctrlKey && !e.shiftKey && e.key === '1') {
+      e.preventDefault();
+      applyMarkdownAction('heading1');
+    }
+    if (e.ctrlKey && !e.shiftKey && e.key === '2') {
+      e.preventDefault();
+      applyMarkdownAction('heading2');
+    }
+    if (e.ctrlKey && !e.shiftKey && e.key === '3') {
+      e.preventDefault();
+      applyMarkdownAction('heading3');
+    }
+  }, [open, save, saveAs, toggleTheme, editorMode, setEditorMode, changeFontSize, fontSize, applyMarkdownAction, setContent]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);

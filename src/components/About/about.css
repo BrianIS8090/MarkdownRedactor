@@ -17,8 +17,11 @@
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  max-width: 420px;
+  max-width: 520px;
   width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -49,8 +52,41 @@
   margin-top: 4px;
 }
 
+/* Табы */
+.about-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-tertiary);
+  padding: 0 16px;
+}
+
+.about-tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.about-tab:hover {
+  color: var(--text-primary);
+  background: var(--hover-bg);
+}
+
+.about-tab--active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
 .about-content {
   padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
 }
 
 .about-description {
@@ -127,4 +163,102 @@
 
 .about-close-btn:hover {
   background: var(--accent-hover);
+}
+
+/* Справочник Markdown */
+.md-reference {
+  overflow-x: auto;
+}
+
+.md-reference-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.md-reference-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border);
+}
+
+.md-reference-table td {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.md-reference-table tr:last-child td {
+  border-bottom: none;
+}
+
+.md-reference-table tr:hover td {
+  background: var(--hover-bg);
+}
+
+.md-reference-syntax {
+  background: var(--hover-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-family: 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  white-space: pre;
+  color: var(--accent);
+}
+
+/* Горячие клавиши */
+.shortcuts-reference {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.shortcuts-group-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.shortcuts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shortcut-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius);
+}
+
+.shortcut-row:hover {
+  background: var(--hover-bg);
+}
+
+.shortcut-desc {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.shortcut-keys {
+  background: var(--hover-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-family: 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  box-shadow: 0 1px 0 var(--border);
 }
