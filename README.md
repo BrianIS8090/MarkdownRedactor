@@ -20,13 +20,15 @@
 
 * **Keyboard shortcuts** for common operations
 
+* **Tabbed help** with Markdown reference and shortcuts
+
 ## 🏗️ Architecture
 
 ### Tech Stack
 
 * **Backend**: Rust + Tauri 2
 
-* **Frontend**: React 18 + TypeScript
+* **Frontend**: React 19 + TypeScript
 
 * **Editor**: Milkdown Crepe
 
@@ -71,13 +73,33 @@ src-tauri/src/
 
 * `Ctrl+O` — Open file
 
-* `Ctrl+N` — New file
-
 * `Ctrl+Shift+S` — Save as
 
-* `F11` — Fullscreen mode
+* `Ctrl+Shift+T` — Toggle theme
 
-* `Ctrl+T` — Toggle theme
+* `Ctrl+/` — Toggle editor mode
+
+* `Ctrl++` / `Ctrl+=` — Increase font size
+
+* `Ctrl+-` — Decrease font size
+
+* `Ctrl+B` — Bold
+
+* `Ctrl+I` — Italic
+
+* `Ctrl+Shift+X` — Strikethrough
+
+* `Ctrl+Shift+C` — Inline code
+
+* `Ctrl+Alt+C` — Code block
+
+* `Ctrl+K` — Insert link
+
+* `Ctrl+Shift+K` — Insert image
+
+* `Ctrl+Alt+T` — Insert table
+
+* `Ctrl+Alt+X` — Insert checkbox
 
 ## 🎨 Themes
 
@@ -111,13 +133,15 @@ Theme settings are saved locally and restored on startup.
 
 * **Горячие клавиши** для основных операций
 
+* **Встроенная справка** с вкладками, Markdown-справочником и шорткатами
+
 ## 🏗️ Архитектура
 
 ### Технологический стек
 
 * **Backend**: Rust + Tauri 2
 
-* **Frontend**: React 18 + TypeScript
+* **Frontend**: React 19 + TypeScript
 
 * **Редактор**: Milkdown Crepe
 
@@ -249,13 +273,33 @@ cd src-tauri && cargo test
 
 * `Ctrl+O` — Открыть файл
 
-* `Ctrl+N` — Новый файл
-
 * `Ctrl+Shift+S` — Сохранить как
 
-* `F11` — Полноэкранный режим
+* `Ctrl+Shift+T` — Переключить тему
 
-* `Ctrl+T` — Переключение темы
+* `Ctrl+/` — Переключить режим редактора
+
+* `Ctrl++` / `Ctrl+=` — Увеличить шрифт
+
+* `Ctrl+-` — Уменьшить шрифт
+
+* `Ctrl+B` — Жирный
+
+* `Ctrl+I` — Курсив
+
+* `Ctrl+Shift+X` — Зачёркнутый
+
+* `Ctrl+Shift+C` — Инлайн-код
+
+* `Ctrl+Alt+C` — Блок кода
+
+* `Ctrl+K` — Вставить ссылку
+
+* `Ctrl+Shift+K` — Вставить изображение
+
+* `Ctrl+Alt+T` — Вставить таблицу
+
+* `Ctrl+Alt+X` — Вставить чекбокс
 
 ## 🎨 Темы
 

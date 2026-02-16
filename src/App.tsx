@@ -1,4 +1,7 @@
 import { useEffect, useCallback } from 'react';
+import { editorViewCtx } from '@milkdown/kit/core';
+import { insert } from '@milkdown/kit/utils';
+
 import { TitleBar } from './components/TitleBar/TitleBar';
 import { Toolbar } from './components/Toolbar/Toolbar';
 import { Editor } from './components/Editor/Editor';
@@ -7,15 +10,54 @@ import { useFile } from './hooks/useFile';
 import { useSettings } from './hooks/useSettings';
 import { useTheme } from './hooks/useTheme';
 import { useAppStore } from './stores/appStore';
+import { getActiveEditor } from './utils/editorBridge';
 import * as tauri from './utils/tauri';
 import './App.css';
 
+type MarkdownAction =
+  | {
+      type: 'wrap';
+      prefix: string;
+      suffix: string;
+      placeholder: string;
+    }
+  | {
+      type: 'insert';
+      text: string;
+      cursorOffset?: number;
+      selectionLength?: number;
+      inline?: boolean;
+    };
+
 function App() {
   const { open, save, saveAs } = useFile();
-  const { changeFontSize, fontSize } = useSettings();
+  const { changeFontSize, fontSize, language } = useSettings();
   const { toggleTheme } = useTheme();
   const editorMode = useAppStore((s) => s.editorMode);
   const setEditorMode = useAppStore((s) => s.setEditorMode);
+  const setContent = useAppStore((s) => s.setContent);
+
+  const placeholders = language === 'ru'
+    ? {
+        text: 'текст',
+        url: 'https://example.com',
+        alt: 'описание',
+        code: 'код',
+        task: 'задача',
+        tableHeader1: 'Колонка 1',
+        tableHeader2: 'Колонка 2',
+        tableCell: 'Ячейка',
+      }
+    : {
+        text: 'text',
+        url: 'https://example.com',
+        alt: 'alt',
+        code: 'code',
+        task: 'task',
+        tableHeader1: 'Column 1',
+        tableHeader2: 'Column 2',
+        tableCell: 'Cell',
+      };
 
   // Обработка открытия файла через ассоциацию (Windows)
   // Запрашиваем при монтировании приложения
@@ -34,44 +76,211 @@ function App() {
     });
   }, []);
 
+  const applyMarkdownAction = useCallback((action: MarkdownAction) => {
+    if (editorMode === 'source') {
+      const textarea = document.querySelector<HTMLTextAreaElement>('.editor-source');
+      if (!textarea) return;
+
+      const start = textarea.selectionStart ?? 0;
+      const end = textarea.selectionEnd ?? 0;
+      const hasSelection = start !== end;
+      const value = textarea.value;
+
+      let insertText = '';
+      let selectionStart = start;
+      let selectionEnd = start;
+
+      if (action.type === 'wrap') {
+        const selected = value.slice(start, end);
+        const content = hasSelection ? selected : action.placeholder;
+        insertText = `${action.prefix}${content}${action.suffix}`;
+        selectionStart = start + action.prefix.length;
+        selectionEnd = selectionStart + content.length;
+      } else {
+        insertText = action.text;
+        const cursorOffset = action.cursorOffset ?? insertText.length;
+        const selectionLength = action.selectionLength ?? 0;
+        selectionStart = start + cursorOffset;
+        selectionEnd = selectionStart + selectionLength;
+      }
+
+      const nextValue = value.slice(0, start) + insertText + value.slice(end);
+      setContent(nextValue);
+
+      requestAnimationFrame(() => {
+        textarea.focus();
+        textarea.setSelectionRange(selectionStart, selectionEnd);
+      });
+      return;
+    }
+
+    const editor = getActiveEditor();
+    if (!editor) return;
+
+    editor.action((ctx) => {
+      const view = ctx.get(editorViewCtx);
+      const { state } = view;
+      const { from, to } = state.selection;
+      const hasSelection = from !== to;
+      const selected = state.doc.textBetween(from, to, '\n');
+
+      let markdown = '';
+      let inline = true;
+
+      if (action.type === 'wrap') {
+        const content = hasSelection ? selected : action.placeholder;
+        markdown = `${action.prefix}${content}${action.suffix}`;
+        inline = true;
+      } else {
+        markdown = action.text;
+        inline = action.inline ?? false;
+      }
+
+      insert(markdown, inline)(ctx);
+      view.focus();
+    });
+  }, [editorMode, setContent]);
+
   // Горячие клавиши
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    const { code } = e;
+    const isCtrl = e.ctrlKey;
+    const isShift = e.shiftKey;
+    const isAlt = e.altKey;
+
     // Ctrl+O — Открыть файл
-    if (e.ctrlKey && e.key === 'o') {
+    if (isCtrl && !isShift && !isAlt && code === 'KeyO') {
       e.preventDefault();
       open();
     }
     // Ctrl+S — Сохранить
-    if (e.ctrlKey && !e.shiftKey && e.key === 's') {
+    if (isCtrl && !isShift && !isAlt && code === 'KeyS') {
       e.preventDefault();
       save();
     }
     // Ctrl+Shift+S — Сохранить как
-    if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+    if (isCtrl && isShift && !isAlt && code === 'KeyS') {
       e.preventDefault();
       saveAs();
     }
     // Ctrl+Shift+T — Переключить тему
-    if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+    if (isCtrl && isShift && !isAlt && code === 'KeyT') {
       e.preventDefault();
       toggleTheme();
     }
     // Ctrl+/ — Переключить режим редактора
-    if (e.ctrlKey && e.key === '/') {
+    if (isCtrl && !isAlt && code === 'Slash') {
       e.preventDefault();
       setEditorMode(editorMode === 'visual' ? 'source' : 'visual');
     }
     // Ctrl+= или Ctrl++ — Увеличить шрифт
-    if (e.ctrlKey && (e.key === '=' || e.key === '+')) {
+    if (isCtrl && !isAlt && (code === 'Equal' || code === 'NumpadAdd')) {
       e.preventDefault();
       changeFontSize(fontSize + 1);
     }
     // Ctrl+- — Уменьшить шрифт
-    if (e.ctrlKey && e.key === '-') {
+    if (isCtrl && !isAlt && (code === 'Minus' || code === 'NumpadSubtract')) {
       e.preventDefault();
       changeFontSize(fontSize - 1);
     }
-  }, [open, save, saveAs, toggleTheme, editorMode, setEditorMode, changeFontSize, fontSize]);
+
+    // Markdown: Ctrl+B — Жирный
+    if (isCtrl && !isShift && !isAlt && code === 'KeyB') {
+      e.preventDefault();
+      applyMarkdownAction({
+        type: 'wrap',
+        prefix: '**',
+        suffix: '**',
+        placeholder: placeholders.text,
+      });
+    }
+    // Markdown: Ctrl+I — Курсив
+    if (isCtrl && !isShift && !isAlt && code === 'KeyI') {
+      e.preventDefault();
+      applyMarkdownAction({
+        type: 'wrap',
+        prefix: '*',
+        suffix: '*',
+        placeholder: placeholders.text,
+      });
+    }
+    // Markdown: Ctrl+Shift+X — Зачёркнутый
+    if (isCtrl && isShift && !isAlt && code === 'KeyX') {
+      e.preventDefault();
+      applyMarkdownAction({
+        type: 'wrap',
+        prefix: '~~',
+        suffix: '~~',
+        placeholder: placeholders.text,
+      });
+    }
+    // Markdown: Ctrl+Shift+C — Инлайн-код
+    if (isCtrl && isShift && !isAlt && code === 'KeyC') {
+      e.preventDefault();
+      applyMarkdownAction({
+        type: 'wrap',
+        prefix: '`',
+        suffix: '`',
+        placeholder: placeholders.code,
+      });
+    }
+    // Markdown: Ctrl+Alt+C — Блок кода
+    if (isCtrl && isAlt && !isShift && code === 'KeyC') {
+      e.preventDefault();
+      const codeBlock = `\`\`\`\n${placeholders.code}\n\`\`\``;
+      applyMarkdownAction({
+        type: 'insert',
+        text: codeBlock,
+        cursorOffset: 4,
+        selectionLength: placeholders.code.length,
+        inline: false,
+      });
+    }
+    // Markdown: Ctrl+K — Ссылка
+    if (isCtrl && !isShift && !isAlt && code === 'KeyK') {
+      e.preventDefault();
+      applyMarkdownAction({
+        type: 'wrap',
+        prefix: '[',
+        suffix: `](${placeholders.url})`,
+        placeholder: placeholders.text,
+      });
+    }
+    // Markdown: Ctrl+Shift+K — Изображение
+    if (isCtrl && isShift && !isAlt && code === 'KeyK') {
+      e.preventDefault();
+      applyMarkdownAction({
+        type: 'wrap',
+        prefix: '![',
+        suffix: `](${placeholders.url})`,
+        placeholder: placeholders.alt,
+      });
+    }
+    // Markdown: Ctrl+Alt+T — Таблица
+    if (isCtrl && isAlt && !isShift && code === 'KeyT') {
+      e.preventDefault();
+      const table = `| ${placeholders.tableHeader1} | ${placeholders.tableHeader2} |\n| --- | --- |\n| ${placeholders.tableCell} | ${placeholders.tableCell} |`;
+      applyMarkdownAction({
+        type: 'insert',
+        text: table,
+        cursorOffset: 2,
+        selectionLength: placeholders.tableHeader1.length,
+        inline: false,
+      });
+    }
+    // Markdown: Ctrl+Alt+X — Чекбокс
+    if (isCtrl && isAlt && !isShift && code === 'KeyX') {
+      e.preventDefault();
+      const checkbox = `- [ ] ${placeholders.task}`;
+      applyMarkdownAction({
+        type: 'insert',
+        text: checkbox,
+        cursorOffset: 6,
+        selectionLength: placeholders.task.length,
+        inline: false,
+      });
+    }
+  }, [open, save, saveAs, toggleTheme, editorMode, setEditorMode, changeFontSize, fontSize, applyMarkdownAction, placeholders]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);

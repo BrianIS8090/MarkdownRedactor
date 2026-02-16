@@ -4,7 +4,7 @@ import { useSettings } from '../../hooks/useSettings';
 import { useTheme } from '../../hooks/useTheme';
 import { useAppStore } from '../../stores/appStore';
 import { getTranslations } from '../../i18n';
-import { AboutDialog } from '../About/AboutDialog';
+import { HelpDialog } from '../Help/HelpDialog';
 import './toolbar.css';
 
 const FONT_OPTIONS = [
@@ -18,7 +18,7 @@ const FONT_OPTIONS = [
 ];
 
 export function Toolbar() {
-  const [showAbout, setShowAbout] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const { open, save, saveAs } = useFile();
   const { fontFamily, fontSize, language, changeFontFamily, changeFontSize, changeLanguage } = useSettings();
   const { theme, toggleTheme } = useTheme();
@@ -108,7 +108,7 @@ export function Toolbar() {
         <div className="toolbar-group">
           <button
             className="toolbar-btn"
-            onClick={() => setShowAbout(true)}
+            onClick={() => setShowHelp(true)}
           >
             {t.help}
           </button>
@@ -122,7 +122,7 @@ export function Toolbar() {
         </div>
       </div>
 
-      {showAbout && <AboutDialog onClose={() => setShowAbout(false)} />}
+      {showHelp && <HelpDialog onClose={() => setShowHelp(false)} />}
     </>
   );
 }
