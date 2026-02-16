@@ -63,11 +63,30 @@ function prefixLine(
   };
 }
 
+// Вставляет блок текста на отдельной строке
+function insertBlock(
+  text: string,
+  start: number,
+  block: string,
+  selectFrom: number,
+  selectTo: number,
+): InsertResult {
+  // Определяем нужны ли переносы строки до/после
+  const before = start > 0 && text[start - 1] !== '\n' ? '\n' : '';
+  const newText = text.slice(0, start) + before + block + text.slice(start);
+  return {
+    value: newText,
+    selectionStart: start + before.length + selectFrom,
+    selectionEnd: start + before.length + selectTo,
+  };
+}
+
 export type MarkdownAction =
   | 'bold' | 'italic' | 'strikethrough'
   | 'link' | 'image' | 'inlineCode'
   | 'blockquote' | 'unorderedList' | 'orderedList'
-  | 'heading1' | 'heading2' | 'heading3';
+  | 'heading1' | 'heading2' | 'heading3'
+  | 'table' | 'checkbox' | 'codeBlock' | 'horizontalRule';
 
 export function insertMarkdown(
   text: string,
@@ -100,5 +119,33 @@ export function insertMarkdown(
       return prefixLine(text, selectionStart, '## ', 'Заголовок');
     case 'heading3':
       return prefixLine(text, selectionStart, '### ', 'Заголовок');
+    case 'table': {
+      const tpl = '| Заголовок | Заголовок |\n|---|---|\n| Ячейка | Ячейка |';
+      return insertBlock(text, selectionStart, tpl, 2, 11);
+    }
+    case 'checkbox':
+      return prefixLine(text, selectionStart, '- [ ] ', 'задача');
+    case 'codeBlock': {
+      const selected = text.slice(selectionStart, selectionEnd);
+      if (selected) {
+        const block = '```\n' + selected + '\n```';
+        const newText = text.slice(0, selectionStart) + block + text.slice(selectionEnd);
+        return {
+          value: newText,
+          selectionStart: selectionStart + 4,
+          selectionEnd: selectionStart + 4 + selected.length,
+        };
+      }
+      const block = '```\nкод\n```';
+      const newText = text.slice(0, selectionStart) + block + text.slice(selectionEnd);
+      return {
+        value: newText,
+        selectionStart: selectionStart + 4,
+        selectionEnd: selectionStart + 7,
+      };
+    }
+    case 'horizontalRule': {
+      return insertBlock(text, selectionStart, '---\n', 0, 3);
+    }
   }
 }

@@ -49,6 +49,10 @@ const SHORTCUT_GROUPS: ShortcutGroup[] = [
       { keys: 'Ctrl+1', descKey: 'shortcut_heading1' },
       { keys: 'Ctrl+2', descKey: 'shortcut_heading2' },
       { keys: 'Ctrl+3', descKey: 'shortcut_heading3' },
+      { keys: 'Ctrl+T', descKey: 'shortcut_table' },
+      { keys: 'Ctrl+Shift+C', descKey: 'shortcut_checkbox' },
+      { keys: 'Ctrl+Shift+E', descKey: 'shortcut_codeBlock' },
+      { keys: 'Ctrl+Shift+-', descKey: 'shortcut_horizontalRule' },
     ],
   },
 ];

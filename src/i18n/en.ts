@@ -86,6 +86,15 @@ export const en: Translations = {
   shortcut_heading1: 'Heading 1',
   shortcut_heading2: 'Heading 2',
   shortcut_heading3: 'Heading 3',
+  shortcut_table: 'Table',
+  shortcut_checkbox: 'Checkbox',
+  shortcut_codeBlock: 'Code block',
+  shortcut_horizontalRule: 'Horizontal rule',
+
+  // Context menu
+  contextMenu_formatting: 'Formatting',
+  contextMenu_insert: 'Insert',
+  contextMenu_blocks: 'Blocks',
 
   // Tooltips
   openTooltip: 'Open (Ctrl+O)',

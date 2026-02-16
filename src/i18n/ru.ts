@@ -84,6 +84,15 @@ export const ru = {
   shortcut_heading1: 'Заголовок 1',
   shortcut_heading2: 'Заголовок 2',
   shortcut_heading3: 'Заголовок 3',
+  shortcut_table: 'Таблица',
+  shortcut_checkbox: 'Чекбокс',
+  shortcut_codeBlock: 'Блок кода',
+  shortcut_horizontalRule: 'Горизонтальная линия',
+
+  // Контекстное меню
+  contextMenu_formatting: 'Форматирование',
+  contextMenu_insert: 'Вставка',
+  contextMenu_blocks: 'Блоки',
 
   // Подсказки
   openTooltip: 'Открыть (Ctrl+O)',

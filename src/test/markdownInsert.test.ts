@@ -99,4 +99,57 @@ describe('insertMarkdown', () => {
       expect(result.value).toBe('first\n# second');
     });
   });
+
+  describe('новые действия: table, checkbox, codeBlock, horizontalRule', () => {
+    it('table: вставляет шаблон таблицы', () => {
+      const result = insertMarkdown('', 0, 0, 'table');
+      expect(result.value).toBe('| Заголовок | Заголовок |\n|---|---|\n| Ячейка | Ячейка |');
+      // Выделяет первый «Заголовок»
+      expect(result.selectionStart).toBe(2);
+      expect(result.selectionEnd).toBe(11);
+    });
+
+    it('table: добавляет перенос строки если вставка не в начале', () => {
+      const result = insertMarkdown('текст', 5, 5, 'table');
+      expect(result.value).toContain('\n| Заголовок');
+    });
+
+    it('checkbox: добавляет - [ ] к строке с текстом', () => {
+      const result = insertMarkdown('задача', 0, 0, 'checkbox');
+      expect(result.value).toBe('- [ ] задача');
+    });
+
+    it('checkbox: пустая строка — плейсхолдер', () => {
+      const result = insertMarkdown('', 0, 0, 'checkbox');
+      expect(result.value).toBe('- [ ] задача');
+      expect(result.selectionStart).toBe(6);
+      expect(result.selectionEnd).toBe(12);
+    });
+
+    it('codeBlock: оборачивает выделение в тройные кавычки', () => {
+      const result = insertMarkdown('console.log()', 0, 13, 'codeBlock');
+      expect(result.value).toBe('```\nconsole.log()\n```');
+      expect(result.selectionStart).toBe(4);
+      expect(result.selectionEnd).toBe(17);
+    });
+
+    it('codeBlock: без выделения — плейсхолдер', () => {
+      const result = insertMarkdown('', 0, 0, 'codeBlock');
+      expect(result.value).toBe('```\nкод\n```');
+      expect(result.selectionStart).toBe(4);
+      expect(result.selectionEnd).toBe(7);
+    });
+
+    it('horizontalRule: вставляет ---', () => {
+      const result = insertMarkdown('', 0, 0, 'horizontalRule');
+      expect(result.value).toBe('---\n');
+      expect(result.selectionStart).toBe(0);
+      expect(result.selectionEnd).toBe(3);
+    });
+
+    it('horizontalRule: добавляет перенос строки если не в начале', () => {
+      const result = insertMarkdown('текст', 5, 5, 'horizontalRule');
+      expect(result.value).toBe('текст\n---\n');
+    });
+  });
 });
