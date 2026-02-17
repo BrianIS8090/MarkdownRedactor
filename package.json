@@ -21,6 +21,8 @@
     "@tauri-apps/plugin-fs": "^2.4.5",
     "@tauri-apps/plugin-opener": "^2",
     "@tauri-apps/plugin-store": "^2.4.2",
+    "mdpdfmake": "^1.0.8",
+    "pdfmake": "^0.3.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "zustand": "^5.0.11"
@@ -29,6 +31,7 @@
     "@tauri-apps/cli": "^2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
+    "@types/pdfmake": "^0.3.1",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
