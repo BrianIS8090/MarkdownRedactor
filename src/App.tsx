@@ -11,7 +11,6 @@ import { useSettings } from './hooks/useSettings';
 import { useTheme } from './hooks/useTheme';
 import { useAppStore } from './stores/appStore';
 import { getActiveEditor } from './utils/editorBridge';
-import { printToPdf } from './utils/pdfExport';
 import * as tauri from './utils/tauri';
 import './App.css';
 
@@ -37,7 +36,6 @@ function App() {
   const editorMode = useAppStore((s) => s.editorMode);
   const setEditorMode = useAppStore((s) => s.setEditorMode);
   const setContent = useAppStore((s) => s.setContent);
-  const content = useAppStore((s) => s.content);
 
   const placeholders = language === 'ru'
     ? {
@@ -168,7 +166,7 @@ function App() {
     // Ctrl+P — Печать
     if (isCtrl && !isShift && !isAlt && code === 'KeyP') {
       e.preventDefault();
-      printToPdf(content);
+      window.print();
     }
     // Ctrl+Shift+T — Переключить тему
     if (isCtrl && isShift && !isAlt && code === 'KeyT') {

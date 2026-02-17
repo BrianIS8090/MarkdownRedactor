@@ -5,7 +5,6 @@ import { useTheme } from '../../hooks/useTheme';
 import { useAppStore } from '../../stores/appStore';
 import { getTranslations } from '../../i18n';
 import { HelpDialog } from '../Help/HelpDialog';
-import { printToPdf } from '../../utils/pdfExport';
 import './toolbar.css';
 
 const FONT_OPTIONS = [
@@ -25,7 +24,6 @@ export function Toolbar() {
   const { theme, toggleTheme } = useTheme();
   const editorMode = useAppStore((s) => s.editorMode);
   const setEditorMode = useAppStore((s) => s.setEditorMode);
-  const content = useAppStore((s) => s.content);
   
   const t = getTranslations(language);
 
@@ -35,10 +33,6 @@ export function Toolbar() {
 
   const toggleLanguage = () => {
     changeLanguage(language === 'ru' ? 'en' : 'ru');
-  };
-
-  const handlePrint = () => {
-    printToPdf(content);
   };
 
   return (
@@ -54,7 +48,7 @@ export function Toolbar() {
           <button className="toolbar-btn" onClick={saveAs} title={t.saveAsTooltip}>
             {t.saveAs}
           </button>
-          <button className="toolbar-btn" onClick={handlePrint} title={t.printTooltip}>
+          <button className="toolbar-btn" onClick={() => window.print()} title={t.printTooltip}>
             {t.print}
           </button>
         </div>
