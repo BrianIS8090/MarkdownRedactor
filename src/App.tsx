@@ -163,6 +163,11 @@ function App() {
       e.preventDefault();
       saveAs();
     }
+    // Ctrl+P — Печать
+    if (isCtrl && !isShift && !isAlt && code === 'KeyP') {
+      e.preventDefault();
+      window.print();
+    }
     // Ctrl+Shift+T — Переключить тему
     if (isCtrl && isShift && !isAlt && code === 'KeyT') {
       e.preventDefault();

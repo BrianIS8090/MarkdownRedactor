@@ -53,3 +53,39 @@ body {
   border: 2px solid transparent;
   background-clip: content-box;
 }
+
+/* Стили для печати */
+@media print {
+  .app {
+    background: white;
+  }
+
+  /* Скрыть все элементы кроме редактора */
+  .titlebar,
+  .toolbar,
+  .statusbar {
+    display: none !important;
+  }
+
+  /* Редактор на весь лист */
+  .editor-container {
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  .editor-root {
+    background: white !important;
+  }
+
+  /* Отступы для печати */
+  .editor-root .milkdown .ProseMirror {
+    padding: 0 !important;
+  }
+
+  /* Source-режим при печати */
+  .editor-source {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+  }
+}
