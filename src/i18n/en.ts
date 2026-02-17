@@ -5,6 +5,7 @@ export const en: Translations = {
   open: 'Open',
   save: 'Save',
   saveAs: 'Save As',
+  print: 'Print',
   help: 'Help',
   
   // Theme
@@ -38,6 +39,7 @@ export const en: Translations = {
   openTooltip: 'Open (Ctrl+O)',
   saveTooltip: 'Save (Ctrl+S)',
   saveAsTooltip: 'Save As (Ctrl+Shift+S)',
+  printTooltip: 'Print (Ctrl+P)',
   themeTooltip: 'Toggle theme (Ctrl+Shift+T)',
   modeTooltip: 'Editor mode (Ctrl+/)',
   fontTooltip: 'Font',
@@ -106,6 +108,7 @@ export const en: Translations = {
         { keys: 'Ctrl+O', description: 'Open file' },
         { keys: 'Ctrl+S', description: 'Save file' },
         { keys: 'Ctrl+Shift+S', description: 'Save as' },
+        { keys: 'Ctrl+P', description: 'Print' },
       ],
     },
     {
