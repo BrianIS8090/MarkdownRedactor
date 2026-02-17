@@ -1,6 +1,6 @@
 [package]
 name = "markdown-redactor"
-version = "0.1.1"
+version = "0.2.0"
 description = "Markdown-редактор для Windows 11"
 authors = ["Brian"]
 edition = "2021"
