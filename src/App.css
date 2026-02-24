@@ -53,3 +53,120 @@ body {
   border: 2px solid transparent;
   background-clip: content-box;
 }
+
+/* Стили для печати */
+@media print {
+  /* Размер страницы A4 */
+  @page {
+    size: A4;
+    margin: 20mm 15mm;
+  }
+
+  html, body, #root {
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  body {
+    font-size: 12pt;
+    color: black !important;
+  }
+
+  .app {
+    background: white !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* Скрыть все элементы кроме редактора */
+  .titlebar,
+  .toolbar,
+  .statusbar {
+    display: none !important;
+  }
+
+  /* Редактор на весь лист */
+  .editor-container {
+    overflow: visible !important;
+    background: white !important;
+    height: auto !important;
+    flex: none !important;
+  }
+
+  .editor-root {
+    background: white !important;
+  }
+
+  /* Milkdown стили для печати */
+  .editor-root .milkdown {
+    background: white !important;
+  }
+
+  .editor-root .milkdown .ProseMirror {
+    padding: 0 !important;
+    background: white !important;
+    color: black !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Предотвращение разрыва внутри элементов */
+  .editor-root .milkdown .ProseMirror h1,
+  .editor-root .milkdown .ProseMirror h2,
+  .editor-root .milkdown .ProseMirror h3,
+  .editor-root .milkdown .ProseMirror h4,
+  .editor-root .milkdown .ProseMirror h5,
+  .editor-root .milkdown .ProseMirror h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    color: black !important;
+  }
+
+  .editor-root .milkdown .ProseMirror p,
+  .editor-root .milkdown .ProseMirror ul,
+  .editor-root .milkdown .ProseMirror ol,
+  .editor-root .milkdown .ProseMirror blockquote {
+    page-break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+  }
+
+  .editor-root .milkdown .ProseMirror table,
+  .editor-root .milkdown .ProseMirror pre,
+  .editor-root .milkdown .ProseMirror img {
+    page-break-inside: avoid;
+  }
+
+  .editor-root .milkdown .ProseMirror table {
+    border-collapse: collapse;
+  }
+
+  .editor-root .milkdown .ProseMirror table th,
+  .editor-root .milkdown .ProseMirror table td {
+    border: 1px solid #ccc;
+  }
+
+  .editor-root .milkdown .ProseMirror a {
+    color: black !important;
+    text-decoration: underline;
+  }
+
+  .editor-root .milkdown .ProseMirror pre,
+  .editor-root .milkdown .ProseMirror code {
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd;
+  }
+
+  /* Source-режим при печати */
+  .editor-source {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: auto !important;
+    font-size: 10pt !important;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}

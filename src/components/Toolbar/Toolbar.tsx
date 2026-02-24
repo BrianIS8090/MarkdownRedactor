@@ -48,6 +48,9 @@ export function Toolbar() {
           <button className="toolbar-btn" onClick={saveAs} title={t.saveAsTooltip}>
             {t.saveAs}
           </button>
+          <button className="toolbar-btn" onClick={() => window.print()} title={t.printTooltip}>
+            {t.print}
+          </button>
         </div>
 
         <div className="toolbar-separator" />

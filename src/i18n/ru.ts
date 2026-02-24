@@ -3,6 +3,7 @@ export const ru = {
   open: 'Открыть',
   save: 'Сохранить',
   saveAs: 'Сохранить как',
+  print: 'Печать',
   help: 'Справка',
   
   // Тема
@@ -36,6 +37,7 @@ export const ru = {
   openTooltip: 'Открыть (Ctrl+O)',
   saveTooltip: 'Сохранить (Ctrl+S)',
   saveAsTooltip: 'Сохранить как (Ctrl+Shift+S)',
+  printTooltip: 'Печать (Ctrl+P)',
   themeTooltip: 'Переключить тему (Ctrl+Shift+T)',
   modeTooltip: 'Режим редактора (Ctrl+/)',
   fontTooltip: 'Шрифт',
@@ -104,6 +106,7 @@ export const ru = {
         { keys: 'Ctrl+O', description: 'Открыть файл' },
         { keys: 'Ctrl+S', description: 'Сохранить файл' },
         { keys: 'Ctrl+Shift+S', description: 'Сохранить как' },
+        { keys: 'Ctrl+P', description: 'Печать' },
       ],
     },
     {
