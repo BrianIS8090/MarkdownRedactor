@@ -101,6 +101,23 @@
   height: auto;
 }
 
+/* Защита текста внутри Mermaid SVG от стилей ProseMirror */
+.mermaid-preview svg foreignObject {
+  overflow: visible !important;
+}
+
+.mermaid-preview svg foreignObject div,
+.mermaid-preview svg foreignObject p,
+.mermaid-preview svg foreignObject span {
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  color: inherit !important;
+}
+
+.mermaid-preview svg text {
+  fill: currentColor;
+}
+
 .mermaid-preview-error {
   color: var(--crepe-color-error, #ba1a1a);
 }

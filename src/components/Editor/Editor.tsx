@@ -36,6 +36,7 @@ function createCrepeConfig(defaultValue: string) {
           }
           return null;
         },
+        previewOnlyByDefault: true,
       },
     },
   };
