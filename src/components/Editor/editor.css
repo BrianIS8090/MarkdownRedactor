@@ -83,6 +83,28 @@
   font-size: 0.875em !important;
 }
 
+/* Mermaid-превью в кодовых блоках */
+.mermaid-preview {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  background: var(--bg-primary);
+  border-radius: var(--radius);
+  min-height: 48px;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 0.875em;
+}
+
+.mermaid-preview svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.mermaid-preview-error {
+  color: var(--crepe-color-error, #ba1a1a);
+}
+
 /* Source-режим (textarea) */
 .editor-source {
   width: 100%;
