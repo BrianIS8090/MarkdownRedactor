@@ -33,13 +33,17 @@ describe('renderMermaidPreview', () => {
     expect(result).toBeUndefined();
   });
 
-  it('инициализирует mermaid со светлой темой по умолчанию', () => {
+  it('инициализирует mermaid со светлой темой и htmlLabels: false (глобально)', () => {
     vi.mocked(mermaid.render).mockResolvedValue({ svg: '<svg></svg>', bindFunctions: undefined } as any);
 
     renderMermaidPreview('graph TD; A-->B', vi.fn());
 
     expect(mermaid.initialize).toHaveBeenCalledWith(
-      expect.objectContaining({ theme: 'default', startOnLoad: false })
+      expect.objectContaining({
+        theme: 'default',
+        startOnLoad: false,
+        htmlLabels: false,
+      })
     );
   });
 
@@ -67,9 +71,7 @@ describe('renderMermaidPreview', () => {
 
     const container = applyPreview.mock.calls[0][0] as HTMLElement;
     expect(container.className).toBe('mermaid-preview');
-    const iframe = container.querySelector('iframe');
-    expect(iframe).not.toBeNull();
-    expect(iframe!.srcdoc).toContain(svgContent);
+    expect(container.innerHTML).toContain(svgContent);
   });
 
   it('вызывает applyPreview с ошибкой при невалидном синтаксисе', async () => {
