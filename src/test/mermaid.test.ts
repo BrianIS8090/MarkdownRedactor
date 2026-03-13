@@ -67,7 +67,9 @@ describe('renderMermaidPreview', () => {
 
     const container = applyPreview.mock.calls[0][0] as HTMLElement;
     expect(container.className).toBe('mermaid-preview');
-    expect(container.innerHTML).toBe(svgContent);
+    const iframe = container.querySelector('iframe');
+    expect(iframe).not.toBeNull();
+    expect(iframe!.srcdoc).toContain(svgContent);
   });
 
   it('вызывает applyPreview с ошибкой при невалидном синтаксисе', async () => {
