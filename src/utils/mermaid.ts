@@ -1,6 +1,5 @@
 import mermaid from 'mermaid';
 
-let initialized = false;
 let counter = 0;
 
 // Определяет текущую тему по атрибуту data-theme на <html>
@@ -16,28 +15,36 @@ function ensureInit() {
     theme,
     fontFamily: "'Segoe UI Variable', 'Segoe UI', sans-serif",
   });
-  initialized = true;
 }
 
-// Рендерит mermaid-диаграмму в HTMLElement
-export function renderMermaidPreview(content: string): HTMLElement | null {
+// Генерирует уникальный ID для рендеринга
+export function generateMermaidId(): string {
+  return `mermaid-${Date.now()}-${counter++}`;
+}
+
+// Рендерит mermaid-диаграмму асинхронно через колбэк applyPreview
+// Возвращает undefined — Milkdown покажет индикатор загрузки
+export function renderMermaidPreview(
+  content: string,
+  applyPreview: (el: HTMLElement) => void,
+): undefined | null {
   if (!content.trim()) return null;
 
-  const container = document.createElement('div');
-  container.className = 'mermaid-preview';
-  container.textContent = 'Загрузка диаграммы...';
-
-  // Реинициализируем при каждом рендере для актуальной темы
   ensureInit();
 
-  const id = `mermaid-${Date.now()}-${counter++}`;
+  const id = generateMermaidId();
 
   mermaid.render(id, content.trim()).then(({ svg }) => {
+    const container = document.createElement('div');
+    container.className = 'mermaid-preview';
     container.innerHTML = svg;
+    applyPreview(container);
   }).catch(() => {
+    const container = document.createElement('div');
+    container.className = 'mermaid-preview mermaid-preview-error';
     container.textContent = 'Ошибка синтаксиса Mermaid';
-    container.classList.add('mermaid-preview-error');
+    applyPreview(container);
   });
 
-  return container;
+  return undefined;
 }

@@ -26,9 +26,13 @@ function createCrepeConfig(defaultValue: string) {
         mode: 'block' as const,
       },
       [CrepeFeature.CodeMirror]: {
-        renderPreview: (language: string, content: string) => {
+        renderPreview: (
+          language: string,
+          content: string,
+          applyPreview: (el: HTMLElement) => void,
+        ) => {
           if (language.toLowerCase() === 'mermaid') {
-            return renderMermaidPreview(content);
+            return renderMermaidPreview(content, applyPreview);
           }
           return null;
         },
