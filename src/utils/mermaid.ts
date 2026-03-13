@@ -13,7 +13,6 @@ function ensureInit() {
   mermaid.initialize({
     startOnLoad: false,
     theme,
-    securityLevel: 'loose',
     fontFamily: "'Segoe UI Variable', 'Segoe UI', sans-serif",
   });
 }
@@ -23,35 +22,22 @@ export function generateMermaidId(): string {
   return `mermaid-${Date.now()}-${counter++}`;
 }
 
-// Стили внутри Shadow DOM для изоляции от ProseMirror CSS
-const SHADOW_STYLES = `
-  :host {
-    display: flex;
-    justify-content: center;
-    padding: 16px;
-    min-height: 48px;
-    align-items: center;
-  }
-  svg {
-    max-width: 100%;
-    height: auto;
-  }
-`;
-
-const ERROR_STYLES = `
-  :host {
-    display: flex;
-    justify-content: center;
-    padding: 16px;
-    min-height: 48px;
-    align-items: center;
-    color: var(--crepe-color-error, #ba1a1a);
-    font-size: 0.875em;
-  }
-`;
+// Исправляет текст внутри foreignObject, который ломается CSS ProseMirror
+function fixForeignObjectStyles(container: HTMLElement) {
+  container.querySelectorAll('foreignObject div, foreignObject span, foreignObject p').forEach(el => {
+    const htmlEl = el as HTMLElement;
+    if (!htmlEl.style.color) {
+      htmlEl.style.color = '#333';
+    }
+    htmlEl.style.fontSize = '14px';
+    htmlEl.style.lineHeight = '1.4';
+    htmlEl.style.overflow = 'visible';
+    htmlEl.style.whiteSpace = 'normal';
+    htmlEl.style.visibility = 'visible';
+  });
+}
 
 // Рендерит mermaid-диаграмму асинхронно через колбэк applyPreview
-// Shadow DOM изолирует SVG от CSS ProseMirror
 export function renderMermaidPreview(
   content: string,
   applyPreview: (el: HTMLElement) => void,
@@ -65,14 +51,13 @@ export function renderMermaidPreview(
   mermaid.render(id, content.trim()).then(({ svg }) => {
     const container = document.createElement('div');
     container.className = 'mermaid-preview';
-    const shadow = container.attachShadow({ mode: 'open' });
-    shadow.innerHTML = `<style>${SHADOW_STYLES}</style>${svg}`;
+    container.innerHTML = svg;
+    fixForeignObjectStyles(container);
     applyPreview(container);
   }).catch(() => {
     const container = document.createElement('div');
     container.className = 'mermaid-preview mermaid-preview-error';
-    const shadow = container.attachShadow({ mode: 'open' });
-    shadow.innerHTML = `<style>${ERROR_STYLES}</style><span>Ошибка синтаксиса Mermaid</span>`;
+    container.textContent = 'Ошибка синтаксиса Mermaid';
     applyPreview(container);
   });
 

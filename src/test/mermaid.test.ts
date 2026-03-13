@@ -54,7 +54,7 @@ describe('renderMermaidPreview', () => {
     );
   });
 
-  it('вызывает applyPreview с Shadow DOM контейнером', async () => {
+  it('вызывает applyPreview с SVG после рендеринга', async () => {
     const svgContent = '<svg><text>Диаграмма</text></svg>';
     vi.mocked(mermaid.render).mockResolvedValue({ svg: svgContent, bindFunctions: undefined } as any);
     const applyPreview = vi.fn();
@@ -67,8 +67,7 @@ describe('renderMermaidPreview', () => {
 
     const container = applyPreview.mock.calls[0][0] as HTMLElement;
     expect(container.className).toBe('mermaid-preview');
-    expect(container.shadowRoot).not.toBeNull();
-    expect(container.shadowRoot!.innerHTML).toContain(svgContent);
+    expect(container.innerHTML).toBe(svgContent);
   });
 
   it('вызывает applyPreview с ошибкой при невалидном синтаксисе', async () => {
@@ -82,9 +81,8 @@ describe('renderMermaidPreview', () => {
     });
 
     const container = applyPreview.mock.calls[0][0] as HTMLElement;
+    expect(container.textContent).toBe('Ошибка синтаксиса Mermaid');
     expect(container.classList.contains('mermaid-preview-error')).toBe(true);
-    expect(container.shadowRoot).not.toBeNull();
-    expect(container.shadowRoot!.innerHTML).toContain('Ошибка синтаксиса Mermaid');
   });
 
   it('вызывает mermaid.render с уникальным id', () => {
