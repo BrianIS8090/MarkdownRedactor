@@ -4,6 +4,7 @@ import '@milkdown/crepe/theme/common/style.css';
 import '@milkdown/crepe/theme/frame.css';
 import { useAppStore } from '../../stores/appStore';
 import { setActiveEditor } from '../../utils/editorBridge';
+import { renderMermaidPreview } from '../../utils/mermaid';
 import './editor.css';
 
 function createCrepeConfig(defaultValue: string) {
@@ -23,6 +24,19 @@ function createCrepeConfig(defaultValue: string) {
       [CrepeFeature.Placeholder]: {
         text: 'Начните писать...',
         mode: 'block' as const,
+      },
+      [CrepeFeature.CodeMirror]: {
+        renderPreview: (
+          language: string,
+          content: string,
+          applyPreview: (el: HTMLElement) => void,
+        ) => {
+          if (language.toLowerCase() === 'mermaid') {
+            return renderMermaidPreview(content, applyPreview);
+          }
+          return null;
+        },
+        previewOnlyByDefault: true,
       },
     },
   };
