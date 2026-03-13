@@ -15,8 +15,6 @@ function ensureInit() {
     theme,
     securityLevel: 'loose',
     fontFamily: "'Segoe UI Variable', 'Segoe UI', sans-serif",
-    flowchart: { htmlLabels: false },
-    sequence: { useMaxWidth: true },
   });
 }
 
@@ -25,8 +23,35 @@ export function generateMermaidId(): string {
   return `mermaid-${Date.now()}-${counter++}`;
 }
 
+// Стили внутри Shadow DOM для изоляции от ProseMirror CSS
+const SHADOW_STYLES = `
+  :host {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    min-height: 48px;
+    align-items: center;
+  }
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+`;
+
+const ERROR_STYLES = `
+  :host {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    min-height: 48px;
+    align-items: center;
+    color: var(--crepe-color-error, #ba1a1a);
+    font-size: 0.875em;
+  }
+`;
+
 // Рендерит mermaid-диаграмму асинхронно через колбэк applyPreview
-// Возвращает undefined — Milkdown покажет индикатор загрузки
+// Shadow DOM изолирует SVG от CSS ProseMirror
 export function renderMermaidPreview(
   content: string,
   applyPreview: (el: HTMLElement) => void,
@@ -40,12 +65,14 @@ export function renderMermaidPreview(
   mermaid.render(id, content.trim()).then(({ svg }) => {
     const container = document.createElement('div');
     container.className = 'mermaid-preview';
-    container.innerHTML = svg;
+    const shadow = container.attachShadow({ mode: 'open' });
+    shadow.innerHTML = `<style>${SHADOW_STYLES}</style>${svg}`;
     applyPreview(container);
   }).catch(() => {
     const container = document.createElement('div');
     container.className = 'mermaid-preview mermaid-preview-error';
-    container.textContent = 'Ошибка синтаксиса Mermaid';
+    const shadow = container.attachShadow({ mode: 'open' });
+    shadow.innerHTML = `<style>${ERROR_STYLES}</style><span>Ошибка синтаксиса Mermaid</span>`;
     applyPreview(container);
   });
 

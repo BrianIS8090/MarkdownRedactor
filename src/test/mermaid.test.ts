@@ -25,7 +25,7 @@ describe('renderMermaidPreview', () => {
   });
 
   it('возвращает undefined для асинхронного рендеринга', () => {
-    vi.mocked(mermaid.render).mockResolvedValue({ svg: '<svg></svg>', bindFunctions: undefined });
+    vi.mocked(mermaid.render).mockResolvedValue({ svg: '<svg></svg>', bindFunctions: undefined } as any);
     const applyPreview = vi.fn();
 
     const result = renderMermaidPreview('graph TD; A-->B', applyPreview);
@@ -34,7 +34,7 @@ describe('renderMermaidPreview', () => {
   });
 
   it('инициализирует mermaid со светлой темой по умолчанию', () => {
-    vi.mocked(mermaid.render).mockResolvedValue({ svg: '<svg></svg>', bindFunctions: undefined });
+    vi.mocked(mermaid.render).mockResolvedValue({ svg: '<svg></svg>', bindFunctions: undefined } as any);
 
     renderMermaidPreview('graph TD; A-->B', vi.fn());
 
@@ -45,7 +45,7 @@ describe('renderMermaidPreview', () => {
 
   it('инициализирует mermaid с тёмной темой', () => {
     document.documentElement.setAttribute('data-theme', 'dark');
-    vi.mocked(mermaid.render).mockResolvedValue({ svg: '<svg></svg>', bindFunctions: undefined });
+    vi.mocked(mermaid.render).mockResolvedValue({ svg: '<svg></svg>', bindFunctions: undefined } as any);
 
     renderMermaidPreview('graph TD; A-->B', vi.fn());
 
@@ -54,9 +54,9 @@ describe('renderMermaidPreview', () => {
     );
   });
 
-  it('вызывает applyPreview с SVG после рендеринга', async () => {
+  it('вызывает applyPreview с Shadow DOM контейнером', async () => {
     const svgContent = '<svg><text>Диаграмма</text></svg>';
-    vi.mocked(mermaid.render).mockResolvedValue({ svg: svgContent, bindFunctions: undefined });
+    vi.mocked(mermaid.render).mockResolvedValue({ svg: svgContent, bindFunctions: undefined } as any);
     const applyPreview = vi.fn();
 
     renderMermaidPreview('graph TD; A-->B', applyPreview);
@@ -67,7 +67,8 @@ describe('renderMermaidPreview', () => {
 
     const container = applyPreview.mock.calls[0][0] as HTMLElement;
     expect(container.className).toBe('mermaid-preview');
-    expect(container.innerHTML).toBe(svgContent);
+    expect(container.shadowRoot).not.toBeNull();
+    expect(container.shadowRoot!.innerHTML).toContain(svgContent);
   });
 
   it('вызывает applyPreview с ошибкой при невалидном синтаксисе', async () => {
@@ -81,12 +82,13 @@ describe('renderMermaidPreview', () => {
     });
 
     const container = applyPreview.mock.calls[0][0] as HTMLElement;
-    expect(container.textContent).toBe('Ошибка синтаксиса Mermaid');
     expect(container.classList.contains('mermaid-preview-error')).toBe(true);
+    expect(container.shadowRoot).not.toBeNull();
+    expect(container.shadowRoot!.innerHTML).toContain('Ошибка синтаксиса Mermaid');
   });
 
   it('вызывает mermaid.render с уникальным id', () => {
-    vi.mocked(mermaid.render).mockResolvedValue({ svg: '<svg></svg>', bindFunctions: undefined });
+    vi.mocked(mermaid.render).mockResolvedValue({ svg: '<svg></svg>', bindFunctions: undefined } as any);
 
     renderMermaidPreview('graph TD; A-->B', vi.fn());
     renderMermaidPreview('graph LR; C-->D', vi.fn());
