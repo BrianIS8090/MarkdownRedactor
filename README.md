@@ -1,377 +1,139 @@
+<div align="center">
 
-# Markdown Redactor (EN)
-<img width="1202" height="802" alt="image" src="https://github.com/user-attachments/assets/715b7143-da65-48a6-b7ba-d3b7584f7cb2" />
+<img width="80" src="public/icon.png" alt="Markdown Redactor" />
 
-**Markdown Redactor** is a modern Markdown editor for Windows 11, built on Tauri 2. The application combines a powerful Rust backend with a modern React/TypeScript frontend featuring the Milkdown Crepe visual editor.
+# Markdown Redactor
 
-## 🚀 Features
+### Современный Markdown-редактор для Windows
 
-* **Visual editor** based on Milkdown Crepe with WYSIWYG support
+[![Windows](https://img.shields.io/badge/Platform-Windows-0078D4?logo=windows&logoColor=white)](https://github.com/BrianIS8090/MarkdownRedactor/releases)
+[![Tauri 2](https://img.shields.io/badge/Tauri-2.0-FFC131?logo=tauri&logoColor=white)](https://tauri.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-* **Two editing modes**: visual and Markdown source code
+**Легковесный, быстрый и удобный редактор Markdown-файлов с нативной производительностью.**
 
-* **Theme switching** (light/dark) with persistent settings
+[Скачать](https://github.com/BrianIS8090/MarkdownRedactor/releases) · [Документация для разработчиков](DEVELOPMENT.md)
 
-* **Real-time statistics** counter (words, characters, characters without spaces)
+</div>
 
-* **Full Windows 11 integration** (native look, performance)
+---
 
-* **Auto-save** and file management
+<img width="100%" alt="Markdown Redactor — скриншот" src="https://github.com/user-attachments/assets/715b7143-da65-48a6-b7ba-d3b7584f7cb2" />
 
-* **Keyboard shortcuts** for common operations
+## Зачем ещё один редактор?
 
-* **Tabbed help** with Markdown reference and shortcuts
+Большинство Markdown-редакторов — это либо перегруженные Electron-приложения, съедающие сотни мегабайт оперативной памяти, либо минималистичные текстовые поля без визуального превью.
 
-## 🏗️ Architecture
+**Markdown Redactor** — это золотая середина: нативное Windows-приложение на Rust, которое запускается мгновенно, потребляет минимум ресурсов и при этом предоставляет полноценный визуальный редактор.
 
-### Tech Stack
+## Возможности
 
-* **Backend**: Rust + Tauri 2
+**Визуальное редактирование** — пишите в режиме WYSIWYG с мгновенным превью. Заголовки, списки, таблицы, код — всё отображается так, как будет выглядеть в финальном документе.
 
-* **Frontend**: React 19 + TypeScript
+**Два режима работы** — переключайтесь между визуальным редактором и исходным кодом Markdown одной клавишей. Удобно для тех, кто хочет видеть разметку напрямую.
 
-* **Editor**: Milkdown Crepe
+**Диаграммы Mermaid** — создавайте блок-схемы, sequence-диаграммы, Gantt-графики и другие визуализации прямо в документе.
 
-* **State Management**: Zustand
+**Светлая и тёмная тема** — комфортная работа в любое время суток. Тема переключается мгновенно и запоминается между сессиями.
 
-* **Build Tool**: Vite
+**Статистика в реальном времени** — количество слов, символов и символов без пробелов обновляется при каждом нажатии клавиши.
 
-* **Styling**: CSS with CSS variables
+**Нативная скорость** — построен на Tauri 2 и Rust. Запуск за секунду, минимальное потребление памяти, мгновенный отклик интерфейса.
 
-### Project Structure
+## Горячие клавиши
 
-```
-src/
-├── components/          # React components
-│   ├── Editor/          # Milkdown Crepe editor
-│   ├── StatusBar/       # Status bar (words, characters)
-│   ├── TitleBar/        # Window title bar
-│   └── Toolbar/         # Toolbar
-├── hooks/               # Custom hooks
-│   ├── useFile.ts       # File operations
-│   ├── useSettings.ts   # Application settings
-│   └── useTheme.ts      # Theme switching
-├── stores/              # Zustand store
-│   └── appStore.ts      # Global state
-├── types/               # TypeScript types
-│   └── index.ts         # All interfaces
-├── utils/               # Utilities
-│   └── tauri.ts         # Tauri IPC wrappers
-├── test/                # Tests
-│   └── setup.ts         # Tauri API mocks
-└── themes/              # CSS themes (light/dark/variables)
+| Действие | Сочетание |
+|---|---|
+| Сохранить | `Ctrl+S` |
+| Открыть файл | `Ctrl+O` |
+| Сохранить как | `Ctrl+Shift+S` |
+| Переключить тему | `Ctrl+Shift+T` |
+| Переключить режим | `Ctrl+/` |
+| Жирный | `Ctrl+B` |
+| Курсив | `Ctrl+I` |
+| Вставить ссылку | `Ctrl+K` |
+| Вставить таблицу | `Ctrl+Alt+T` |
+| Блок кода | `Ctrl+Alt+C` |
 
-src-tauri/src/
-├── lib.rs               # Tauri entry point
-├── main.rs              # Main
-└── commands.rs          # Tauri IPC commands
-```
+## Установка
 
-## ⌨️ Keyboard Shortcuts
+1. Перейдите на страницу [Releases](https://github.com/BrianIS8090/MarkdownRedactor/releases)
+2. Скачайте `Markdown.Redactor_x.x.x_x64-setup.exe`
+3. Запустите установщик и следуйте инструкциям
 
-* `Ctrl+S` — Save file
+> **Системные требования:** Windows 10/11 (x64). Поддержка macOS и Linux планируется в будущих версиях.
 
-* `Ctrl+O` — Open file
+## Для разработчиков
 
-* `Ctrl+Shift+S` — Save as
+Техническая документация, архитектура проекта и инструкции по сборке — в файле **[DEVELOPMENT.md](DEVELOPMENT.md)**.
 
-* `Ctrl+Shift+T` — Toggle theme
+## Лицензия
 
-* `Ctrl+/` — Toggle editor mode
+[MIT](LICENSE) — используйте свободно.
 
-* `Ctrl++` / `Ctrl+=` — Increase font size
+---
 
-* `Ctrl+-` — Decrease font size
+<div align="center">
 
-* `Ctrl+B` — Bold
+# Markdown Redactor
 
-* `Ctrl+I` — Italic
+### A Modern Markdown Editor for Windows
 
-* `Ctrl+Shift+X` — Strikethrough
+**A lightweight, fast, and intuitive Markdown file editor with native performance.**
 
-* `Ctrl+Shift+C` — Inline code
+[Download](https://github.com/BrianIS8090/MarkdownRedactor/releases) · [Developer Docs](DEVELOPMENT.md)
 
-* `Ctrl+Alt+C` — Code block
+</div>
 
-* `Ctrl+K` — Insert link
+---
 
-* `Ctrl+Shift+K` — Insert image
+## Why another editor?
 
-* `Ctrl+Alt+T` — Insert table
+Most Markdown editors are either bloated Electron apps consuming hundreds of megabytes of RAM, or minimal text fields with no visual preview.
 
-* `Ctrl+Alt+X` — Insert checkbox
+**Markdown Redactor** strikes the perfect balance: a native Windows application built with Rust that launches instantly, uses minimal resources, and still offers a full-featured visual editor.
 
-## 🎨 Themes
+## Features
 
-The application supports two themes:
+**Visual editing** — write in WYSIWYG mode with instant preview. Headings, lists, tables, code — everything renders exactly as it will appear in the final document.
 
-* **Light** — classic theme for daytime work
+**Dual editing modes** — switch between the visual editor and raw Markdown source with a single keystroke. Perfect for those who want to see the markup directly.
 
-* **Dark** — comfortable theme for low-light environments
+**Mermaid diagrams** — create flowcharts, sequence diagrams, Gantt charts, and other visualizations right inside your document.
 
-Theme settings are saved locally and restored on startup.
+**Light and dark themes** — comfortable writing at any time of day. Themes switch instantly and persist between sessions.
 
-***
+**Real-time statistics** — word count, character count, and characters without spaces update with every keystroke.
 
-# Markdown Redactor (RU)
+**Native speed** — built on Tauri 2 and Rust. Launches in under a second, minimal memory footprint, instant UI response.
 
-**Markdown Redactor** — современный Markdown-редактор для Windows 11, построенный на Tauri 2. Приложение объединяет мощный Rust-бэкенд и современный React/TypeScript фронтенд с визуальным редактором Milkdown Crepe.
+## Keyboard Shortcuts
 
-## 🚀 Возможности
+| Action | Shortcut |
+|---|---|
+| Save | `Ctrl+S` |
+| Open file | `Ctrl+O` |
+| Save as | `Ctrl+Shift+S` |
+| Toggle theme | `Ctrl+Shift+T` |
+| Toggle mode | `Ctrl+/` |
+| Bold | `Ctrl+B` |
+| Italic | `Ctrl+I` |
+| Insert link | `Ctrl+K` |
+| Insert table | `Ctrl+Alt+T` |
+| Code block | `Ctrl+Alt+C` |
 
-* **Визуальный редактор** на основе Milkdown Crepe с поддержкой WYSIWYG
+## Installation
 
-* **Два режима редактирования**: визуальный и исходный код Markdown
+1. Go to the [Releases](https://github.com/BrianIS8090/MarkdownRedactor/releases) page
+2. Download `Markdown.Redactor_x.x.x_x64-setup.exe`
+3. Run the installer and follow the prompts
 
-* **Переключение тем** (светлая/темная) с сохранением настроек
+> **System requirements:** Windows 10/11 (x64). macOS and Linux support is planned for future releases.
 
-* **Счетчик статистики** в реальном времени (слова, символы, символы без пробелов)
+## For Developers
 
-* **Полная интеграция с Windows 11** (нативный вид, производительность)
+Technical documentation, project architecture, and build instructions are available in **[DEVELOPMENT.md](DEVELOPMENT.md)**.
 
-* **Автосохранение** и управление файлами
+## License
 
-* **Горячие клавиши** для основных операций
-
-* **Встроенная справка** с вкладками, Markdown-справочником и шорткатами
-
-## 🏗️ Архитектура
-
-### Технологический стек
-
-* **Backend**: Rust + Tauri 2
-
-* **Frontend**: React 19 + TypeScript
-
-* **Редактор**: Milkdown Crepe
-
-* **Состояние**: Zustand
-
-* **Сборка**: Vite
-
-* **Стилизация**: CSS с CSS-переменными
-
-### Структура проекта
-
-```
-src/
-├── components/          # React-компоненты
-│   ├── Editor/          # Milkdown Crepe редактор
-│   ├── StatusBar/       # Статус-бар (слова, символы)
-│   ├── TitleBar/        # Заголовок окна
-│   └── Toolbar/         # Панель инструментов
-├── hooks/               # Кастомные хуки
-│   ├── useFile.ts       # Операции с файлами
-│   ├── useSettings.ts   # Настройки приложения
-│   └── useTheme.ts      # Переключение темы
-├── stores/              # Zustand store
-│   └── appStore.ts      # Глобальное состояние
-├── types/               # TypeScript типы
-│   └── index.ts         # Все интерфейсы
-├── utils/               # Утилиты
-│   └── tauri.ts         # Обёртки над Tauri IPC
-├── test/                # Тесты
-│   └── setup.ts         # Моки для Tauri API
-└── themes/              # CSS-темы (light/dark/variables)
-
-src-tauri/src/
-├── lib.rs               # Точка входа Tauri
-├── main.rs              # Main
-└── commands.rs          # Tauri IPC команды
-```
-
-## 🛠️ Установка и запуск
-
-### Требования
-
-* Node.js 18+
-
-* Rust 1.70+
-
-* Windows 11
-
-### Установка зависимостей
-
-```bash
-# Frontend зависимости
-npm install
-
-# Rust зависимости (автоматически при первом запуске)
-cd src-tauri
-cargo build
-```
-
-### Команды разработки
-
-#### Frontend (TypeScript/React)
-
-```bash
-npm run dev          # Запуск в режиме разработки (Vite + Tauri)
-npm run build        # Сборка production (tsc && vite build)
-npm run preview      # Просмотр production-сборки
-npm run test         # Запуск всех тестов (vitest run)
-npm run test:watch   # Тесты в режиме наблюдения
-npx vitest run src/test/appStore.test.ts     # Запуск одного тестового файла
-npx vitest run --reporter=verbose             # Подробный вывод
-```
-
-#### Tauri приложение
-
-```bash
-npm run tauri dev    # Запуск Tauri в режиме разработки
-npm run tauri build  # Сборка Tauri-приложения
-```
-
-#### Backend (Rust)
-
-```bash
-cd src-tauri
-cargo build          # Сборка
-cargo check          # Быстрая проверка типов
-cargo clippy         # Линтер
-cargo test           # Запуск тестов
-cargo test --test <name>  # Запуск конкретного теста
-```
-
-#### Проверка типов
-
-```bash
-npx tsc --noEmit     # Проверка TypeScript
-```
-
-## 🧪 Тестирование
-
-Проект использует Vitest для тестирования React-компонентов и Cargo для тестирования Rust кода.
-
-### Запуск тестов
-
-```bash
-# Все тесты
-npm run test
-
-# Конкретный файл
-npx vitest run src/test/appStore.test.ts
-
-# Тесты в режиме наблюдения
-npm run test:watch
-
-# Rust тесты
-cd src-tauri && cargo test
-```
-
-### Структура тестов
-
-* Тесты находятся в `src/test/`
-
-* Setup файл: `src/test/setup.ts` (моки Tauri API)
-
-* Используется Testing Library для React-компонентов
-
-## ⌨️ Горячие клавиши
-
-* `Ctrl+S` — Сохранить файл
-
-* `Ctrl+O` — Открыть файл
-
-* `Ctrl+Shift+S` — Сохранить как
-
-* `Ctrl+Shift+T` — Переключить тему
-
-* `Ctrl+/` — Переключить режим редактора
-
-* `Ctrl++` / `Ctrl+=` — Увеличить шрифт
-
-* `Ctrl+-` — Уменьшить шрифт
-
-* `Ctrl+B` — Жирный
-
-* `Ctrl+I` — Курсив
-
-* `Ctrl+Shift+X` — Зачёркнутый
-
-* `Ctrl+Shift+C` — Инлайн-код
-
-* `Ctrl+Alt+C` — Блок кода
-
-* `Ctrl+K` — Вставить ссылку
-
-* `Ctrl+Shift+K` — Вставить изображение
-
-* `Ctrl+Alt+T` — Вставить таблицу
-
-* `Ctrl+Alt+X` — Вставить чекбокс
-
-## 🎨 Темы
-
-Приложение поддерживает две темы:
-
-* **Светлая** — классическая тема для дневной работы
-
-* **Темная** — комфортная тема для работы в слабом освещении
-
-Настройки темы сохраняются локально и восстанавливаются при запуске.
-
-## 📝 Особенности реализации
-
-### Управление состоянием
-
-* Используется Zustand для глобального состояния
-
-* Оптимизация ре-рендеров через селекторы
-
-* Персистентность настроек через localStorage
-
-### IPC коммуникация
-
-* Все вызовы к Rust-бэкенду через обёртки в `utils/tauri.ts`
-
-* Типизированные интерфейсы для TypeScript
-
-* Обработка ошибок с русскими сообщениями
-
-### Редактор Milkdown Crepe
-
-* Визуальное редактирование с превью
-
-* Поддержка стандартных Markdown-элементов
-
-* Расширяемая архитектура плагинов
-
-## 🚀 Сборка для продакшена
-
-```bash
-# Сборка фронтенда
-npm run build
-
-# Сборка Tauri приложения
-npm run tauri build
-
-# Результат будет в src-tauri/target/release/bundle/
-```
-
-## 🛠️ Recommended IDE Setup
-
-* [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
-
-### Полезные расширения VS Code
-
-* **Tailwind CSS IntelliSense** — для работы с CSS
-
-* **TypeScript Importer** — автоматический импорт
-
-* **ESLint** — проверка кода
-
-* **Prettier** — форматирование кода
-
-## 📄 Лицензия
-
-MIT License
-
-## 🤝 Вклад в проект
-
-1. Fork проекта
-2. Создайте feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit ваши изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Push в branch (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
-
+[MIT](LICENSE) — use freely.
