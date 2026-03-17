@@ -26,7 +26,8 @@
 
 **Markdown Redactor** — это золотая середина: нативное Windows-приложение на Rust, которое запускается мгновенно, потребляет минимум ресурсов и при этом предоставляет полноценный визуальный редактор.
 
-<img width="1585" height="1126" alt="Снимок экрана 2026-03-17 134743" src="https://github.com/user-attachments/assets/b26250d3-c30d-4c35-8fd1-39655b0d29e4" />
+<img width="1585" height="1126" alt="Снимок экрана 2026-03-17 135531" src="https://github.com/user-attachments/assets/0746d7b4-9389-4d7a-8251-7434af3fefc3" />
+
 
 ## Возможности
 
