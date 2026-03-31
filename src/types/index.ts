@@ -19,6 +19,7 @@ export type EditorMode = 'visual' | 'source';
 export interface AppState {
   // Файл
   filePath: string | null;
+  baseDir: string | null;
   content: string;
   isDirty: boolean;
 
@@ -34,6 +35,7 @@ export interface AppState {
   // Действия
   setContent: (content: string) => void;
   setFilePath: (path: string | null) => void;
+  setBaseDir: (baseDir: string | null) => void;
   setDirty: (dirty: boolean) => void;
   setFontFamily: (fontFamily: string) => void;
   setFontSize: (fontSize: number) => void;

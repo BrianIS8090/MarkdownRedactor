@@ -12,6 +12,7 @@ import { useTheme } from './hooks/useTheme';
 import { useAppStore } from './stores/appStore';
 import { getActiveEditor } from './utils/editorBridge';
 import * as tauri from './utils/tauri';
+import { findBaseDir } from './utils/paths';
 import './App.css';
 
 type MarkdownAction =
@@ -30,7 +31,7 @@ type MarkdownAction =
     };
 
 function App() {
-  const { open, save, saveAs } = useFile();
+  const { open, save, saveAs, insertAsset } = useFile();
   const { changeFontSize, fontSize, language } = useSettings();
   const { toggleTheme } = useTheme();
   const editorMode = useAppStore((s) => s.editorMode);
@@ -65,8 +66,12 @@ function App() {
     tauri.getPendingFile().then(async (filePath) => {
       if (filePath) {
         try {
-          const content = await tauri.readFile(filePath);
+          const [content, base] = await Promise.all([
+            tauri.readFile(filePath),
+            findBaseDir(filePath),
+          ]);
           useAppStore.getState().setFilePath(filePath);
+          useAppStore.getState().setBaseDir(base);
           useAppStore.getState().setContent(content);
           useAppStore.getState().setDirty(false);
         } catch (e) {
@@ -285,7 +290,16 @@ function App() {
         inline: false,
       });
     }
-  }, [open, save, saveAs, toggleTheme, editorMode, setEditorMode, changeFontSize, fontSize, applyMarkdownAction, placeholders]);
+    // Ctrl+Shift+A — Вставить ассет из assets/
+    if (isCtrl && isShift && !isAlt && code === 'KeyA') {
+      e.preventDefault();
+      insertAsset().then((md) => {
+        if (md) {
+          applyMarkdownAction({ type: 'insert', text: md, inline: false });
+        }
+      });
+    }
+  }, [open, save, saveAs, toggleTheme, editorMode, setEditorMode, changeFontSize, fontSize, applyMarkdownAction, placeholders, insertAsset]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);

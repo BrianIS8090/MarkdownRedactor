@@ -5,6 +5,7 @@ import '@milkdown/crepe/theme/frame.css';
 import { useAppStore } from '../../stores/appStore';
 import { setActiveEditor } from '../../utils/editorBridge';
 import { renderMermaidPreview } from '../../utils/mermaid';
+import { resolveImageSrc } from '../../utils/paths';
 import './editor.css';
 
 // Извлечь YAML frontmatter из markdown-контента.
@@ -15,7 +16,7 @@ function splitFrontmatter(content: string): [string, string] {
   return ['', content];
 }
 
-function createCrepeConfig(defaultValue: string) {
+function createCrepeConfig(defaultValue: string, baseDir: string | null) {
   return {
     defaultValue,
     features: {
@@ -46,6 +47,13 @@ function createCrepeConfig(defaultValue: string) {
         },
         previewOnlyByDefault: true,
       },
+      [CrepeFeature.ImageBlock]: {
+        proxyDomURL: (url: string): string | Promise<string> => {
+          if (!url || /^(https?:|data:|blob:)/.test(url)) return url;
+          if (!baseDir) return url;
+          return resolveImageSrc(url, baseDir);
+        },
+      },
     },
   };
 }
@@ -57,6 +65,7 @@ export function Editor() {
   const crepeRef = useRef<Crepe | null>(null);
 
   const content = useAppStore((s) => s.content);
+  const baseDir = useAppStore((s) => s.baseDir);
   const setContent = useAppStore((s) => s.setContent);
   const fontFamily = useAppStore((s) => s.fontFamily);
   const fontSize = useAppStore((s) => s.fontSize);
@@ -81,7 +90,7 @@ export function Editor() {
   const frontmatterRef = useRef('');
 
   // Создание экземпляра Crepe
-  const buildCrepe = useCallback((root: HTMLElement, value: string) => {
+  const buildCrepe = useCallback((root: HTMLElement, value: string, currentBaseDir: string | null) => {
     // Очистить предыдущие обработчики взаимодействия
     interactionCleanupRef.current?.();
 
@@ -104,7 +113,7 @@ export function Editor() {
 
     const crepe = new Crepe({
       root,
-      ...createCrepeConfig(body),
+      ...createCrepeConfig(body, currentBaseDir),
     });
 
     crepe.on((listener) => {
@@ -126,7 +135,7 @@ export function Editor() {
   useEffect(() => {
     if (!editorRef.current) return;
 
-    const crepe = buildCrepe(editorRef.current, content);
+    const crepe = buildCrepe(editorRef.current, content, baseDir);
     crepe.create().then(() => {
       crepeRef.current = crepe;
       setActiveEditor(crepe.editor);
@@ -150,14 +159,14 @@ export function Editor() {
 
       setActiveEditor(null);
       crepeRef.current.destroy().then(() => {
-        const crepe = buildCrepe(root, content);
+        const crepe = buildCrepe(root, content, baseDir);
         crepe.create().then(() => {
           crepeRef.current = crepe;
           setActiveEditor(crepe.editor);
         });
       });
     }
-  }, [content, buildCrepe]);
+  }, [content, baseDir, buildCrepe]);
 
   // Синхронизация source → store при переключении обратно в visual
   const prevMode = useRef(editorMode);
@@ -169,7 +178,7 @@ export function Editor() {
       const currentContent = contentRef.current;
       setActiveEditor(null);
       crepeRef.current.destroy().then(() => {
-        const crepe = buildCrepe(root, currentContent);
+        const crepe = buildCrepe(root, currentContent, baseDir);
         crepe.create().then(() => {
           crepeRef.current = crepe;
           setActiveEditor(crepe.editor);
@@ -177,7 +186,7 @@ export function Editor() {
       });
     }
     prevMode.current = editorMode;
-  }, [editorMode, buildCrepe]);
+  }, [editorMode, baseDir, buildCrepe]);
 
   // Динамическое обновление шрифта и размера через CSS-переменные
   useEffect(() => {

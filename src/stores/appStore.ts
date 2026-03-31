@@ -5,6 +5,7 @@ import type { Language } from '../i18n';
 export const useAppStore = create<AppState>((set) => ({
   // Файл
   filePath: null,
+  baseDir: null,
   content: '',
   isDirty: false,
 
@@ -22,6 +23,7 @@ export const useAppStore = create<AppState>((set) => ({
     state.content === content ? {} : { content, isDirty: true }
   ),
   setFilePath: (filePath) => set({ filePath }),
+  setBaseDir: (baseDir) => set({ baseDir }),
   setDirty: (isDirty) => set({ isDirty }),
   setFontFamily: (fontFamily) => set({ fontFamily }),
   setFontSize: (fontSize) => set({ fontSize }),

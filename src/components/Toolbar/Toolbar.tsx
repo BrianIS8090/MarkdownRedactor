@@ -75,6 +75,14 @@ export function Toolbar() {
           >
             ↻
           </button>
+          <button
+            className="toolbar-btn"
+            onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'A', code: 'KeyA', ctrlKey: true, shiftKey: true, bubbles: true }))}
+            disabled={!filePath}
+            title={t.insertAssetTooltip}
+          >
+            {t.insertAsset}
+          </button>
         </div>
 
         <div className="toolbar-separator" />
