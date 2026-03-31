@@ -1,27 +1,34 @@
 import { useCallback } from 'react';
 import { useAppStore } from '../stores/appStore';
 import * as tauri from '../utils/tauri';
+import { findBaseDir, pickAndFormatAsset } from '../utils/paths';
 
 export function useFile() {
   const {
     filePath,
+    baseDir,
     content,
     isDirty,
     setContent,
     setFilePath,
+    setBaseDir,
     setDirty,
   } = useAppStore();
 
   const open = useCallback(async () => {
     try {
       const file = await tauri.openFile();
+      // Вычислить baseDir ДО установки контента,
+      // чтобы редактор пересоздался с корректным baseDir
+      const base = await findBaseDir(file.path);
       setFilePath(file.path);
+      setBaseDir(base);
       setContent(file.content);
       setDirty(false);
     } catch {
       // Пользователь отменил диалог или произошла ошибка
     }
-  }, [setContent, setDirty, setFilePath]);
+  }, [setContent, setDirty, setFilePath, setBaseDir]);
 
   const save = useCallback(async () => {
     if (!filePath) {
@@ -58,5 +65,14 @@ export function useFile() {
     }
   }, [filePath, setContent, setDirty]);
 
-  return { filePath, content, isDirty, open, save, saveAs, reload, setContent };
+  // Выбрать файл из assets/ и вернуть готовый markdown
+  const insertAsset = useCallback(async (): Promise<string | null> => {
+    try {
+      return await pickAndFormatAsset(baseDir);
+    } catch {
+      return null;
+    }
+  }, [baseDir]);
+
+  return { filePath, content, isDirty, open, save, saveAs, reload, insertAsset, setContent };
 }

@@ -47,6 +47,8 @@ export const en: Translations = {
   decreaseFontTooltip: 'Decrease font (Ctrl+-)',
   increaseFontTooltip: 'Increase font (Ctrl++)',
   pageWidthTooltip: 'Page width (px)',
+  insertAsset: 'Insert file',
+  insertAssetTooltip: 'Insert asset (Ctrl+Shift+A)',
 
   // Help
   helpTitle: 'Help',
@@ -132,6 +134,7 @@ export const en: Translations = {
         { keys: 'Ctrl+Alt+C', description: 'Code block (```...```)' },
         { keys: 'Ctrl+K', description: 'Link ([text](url))' },
         { keys: 'Ctrl+Shift+K', description: 'Image (![alt](url))' },
+        { keys: 'Ctrl+Shift+A', description: 'Insert file from assets/' },
         { keys: 'Ctrl+Alt+T', description: 'Table' },
         { keys: 'Ctrl+Alt+X', description: 'Checkbox (- [ ])' },
       ],

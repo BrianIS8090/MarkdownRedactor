@@ -45,6 +45,8 @@ export const ru = {
   decreaseFontTooltip: 'Уменьшить шрифт (Ctrl+-)',
   increaseFontTooltip: 'Увеличить шрифт (Ctrl++)',
   pageWidthTooltip: 'Ширина страницы (px)',
+  insertAsset: 'Вставить файл',
+  insertAssetTooltip: 'Вставить ассет (Ctrl+Shift+A)',
 
   // Справка
   helpTitle: 'Справка',
@@ -130,6 +132,7 @@ export const ru = {
         { keys: 'Ctrl+Alt+C', description: 'Блок кода (```...```)' },
         { keys: 'Ctrl+K', description: 'Ссылка ([текст](url))' },
         { keys: 'Ctrl+Shift+K', description: 'Изображение (![alt](url))' },
+        { keys: 'Ctrl+Shift+A', description: 'Вставить файл из assets/' },
         { keys: 'Ctrl+Alt+T', description: 'Таблица' },
         { keys: 'Ctrl+Alt+X', description: 'Чекбокс (- [ ])' },
       ],
